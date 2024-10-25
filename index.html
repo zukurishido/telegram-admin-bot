@@ -1,0 +1,149 @@
+```html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        :root {
+            --tg-theme-bg-color: #fff;
+            --tg-theme-text-color: #000;
+            --tg-theme-button-color: #3390ec;
+            --tg-theme-button-text-color: #fff;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 16px;
+            background: var(--tg-theme-bg-color);
+            color: var(--tg-theme-text-color);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .button {
+            background: var(--tg-theme-button-color);
+            color: var(--tg-theme-button-text-color);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 8px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: var(--tg-theme-button-color);
+            color: var(--tg-theme-button-text-color);
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div>Подписчиков</div>
+                <div class="stat-value" id="subscribers">0</div>
+                <div id="subscribers-growth">+0 за сегодня</div>
+            </div>
+            <div class="stat-card">
+                <div>Доход</div>
+                <div class="stat-value" id="revenue">$0</div>
+                <div id="revenue-growth">+0% к прошлому месяцу</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Управление рекламой</h3>
+            <button class="button" onclick="createAd()">Создать рекламный пост</button>
+            <button class="button" onclick="showStats()">Статистика рекламы</button>
+            <button class="button" onclick="showPriceList()">Прайс-лист</button>
+        </div>
+
+        <div class="card">
+            <h3>Автопостинг</h3>
+            <button class="button" onclick="createPost()">Создать пост</button>
+            <button class="button" onclick="showSchedule()">Расписание</button>
+        </div>
+    </div>
+
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand();
+
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', function() {
+            // Применяем цвета Telegram
+            document.documentElement.style.setProperty('--tg-theme-bg-color', tg.themeParams.bg_color);
+            document.documentElement.style.setProperty('--tg-theme-text-color', tg.themeParams.text_color);
+            document.documentElement.style.setProperty('--tg-theme-button-color', tg.themeParams.button_color);
+            document.documentElement.style.setProperty('--tg-theme-button-text-color', tg.themeParams.button_text_color);
+
+            // Загружаем данные
+            loadStats();
+        });
+
+        // Функции управления
+        function loadStats() {
+            // Здесь будет загрузка реальных данных
+            document.getElementById('subscribers').textContent = '12,458';
+            document.getElementById('subscribers-growth').textContent = '+245 за сегодня';
+            document.getElementById('revenue').textContent = '$1,500';
+            document.getElementById('revenue-growth').textContent = '+15% к прошлому месяцу';
+        }
+
+        function createAd() {
+            tg.sendData(JSON.stringify({action: 'create_ad'}));
+        }
+
+        function showStats() {
+            tg.sendData(JSON.stringify({action: 'show_stats'}));
+        }
+
+        function showPriceList() {
+            tg.sendData(JSON.stringify({action: 'show_price_list'}));
+        }
+
+        function createPost() {
+            tg.sendData(JSON.stringify({action: 'create_post'}));
+        }
+
+        function showSchedule() {
+            tg.sendData(JSON.stringify({action: 'show_schedule'}));
+        }
+    </script>
+</body>
+</html>
+```
