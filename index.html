@@ -36,18 +36,6 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .button {
-            background: var(--tg-theme-button-color);
-            color: var(--tg-theme-button-text-color);
-            border: none;
-            padding: 12px 20px;
-            border-radius: 8px;
-            font-size: 16px;
-            cursor: pointer;
-            width: 100%;
-            margin-bottom: 8px;
-        }
-
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -68,20 +56,80 @@
             font-weight: bold;
             margin: 8px 0;
         }
+
+        .button {
+            background: var(--tg-theme-button-color);
+            color: var(--tg-theme-button-text-color);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 8px;
+            transition: opacity 0.2s;
+        }
+
+        .button:hover {
+            opacity: 0.9;
+        }
+
+        .header {
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 4px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 8px;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+
+        .tab.active {
+            background: var(--tg-theme-button-color);
+            color: var(--tg-theme-button-text-color);
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <div class="header">
+            <h1>Панель управления</h1>
+        </div>
+
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('dashboard')">Обзор</div>
+            <div class="tab" onclick="switchTab('analytics')">Статистика</div>
+            <div class="tab" onclick="switchTab('ads')">Реклама</div>
+        </div>
+
         <div class="stats-grid">
             <div class="stat-card">
                 <div>Подписчиков</div>
-                <div class="stat-value" id="subscribers">0</div>
-                <div id="subscribers-growth">+0 за сегодня</div>
+                <div class="stat-value" id="subscribers">12,458</div>
+                <div>+245 за сегодня</div>
             </div>
             <div class="stat-card">
                 <div>Доход</div>
-                <div class="stat-value" id="revenue">$0</div>
-                <div id="revenue-growth">+0% к прошлому месяцу</div>
+                <div class="stat-value" id="revenue">$1,500</div>
+                <div>+15% к прошлому месяцу</div>
             </div>
         </div>
 
@@ -115,13 +163,24 @@
             loadStats();
         });
 
-        // Функции управления
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
         function loadStats() {
             // Здесь будет загрузка реальных данных
-            document.getElementById('subscribers').textContent = '12,458';
-            document.getElementById('subscribers-growth').textContent = '+245 за сегодня';
-            document.getElementById('revenue').textContent = '$1,500';
-            document.getElementById('revenue-growth').textContent = '+15% к прошлому месяцу';
+            updateStats({
+                subscribers: 12458,
+                revenue: 1500,
+                growth: 245,
+                revenue_growth: 15
+            });
+        }
+
+        function updateStats(data) {
+            document.getElementById('subscribers').textContent = data.subscribers.toLocaleString();
+            document.getElementById('revenue').textContent = '$' + data.revenue.toLocaleString();
         }
 
         function createAd() {
